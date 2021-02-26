@@ -6,13 +6,15 @@ import { CreateCustomerDto } from './dtos/create-customer.dto';
 @EntityRepository(Customer)
 export class CustomerRepository extends Repository<Customer> {
     async createCustomer(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-        const {name, address, phone, phone2} = createCustomerDto;
+        const {name, address, phone, phone2, cpf} = createCustomerDto;
 
         const customer = this.create();
         customer.name = name;
+        customer.cpf = cpf;
         customer.address = address;
         customer.phone = phone;
         customer.phone2 = phone2;
+        customer.defaulter = false;
 
         try {
             await customer.save();

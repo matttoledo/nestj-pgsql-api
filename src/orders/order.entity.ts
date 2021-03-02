@@ -27,6 +27,9 @@ import {
     @Column({ nullable: false})
     deliveryDate: Date;
 
+    @CreateDateColumn()
+    createDate: Date;
+
     @Column({ nullable: false, type: 'real'})
     totalValue: number;
 

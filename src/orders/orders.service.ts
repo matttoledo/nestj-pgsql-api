@@ -37,5 +37,11 @@ export class OrdersService {
 
         return order;
     }
-    
+
+    async listOrdersByCustomerId(id: string): Promise<Order[]>{
+        return this.orderRepository.createQueryBuilder("order")
+                                    .where("order.customerId=:id")
+                                    .getMany();
+
+    }    
 }

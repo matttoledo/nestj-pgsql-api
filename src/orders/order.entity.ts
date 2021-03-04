@@ -45,6 +45,12 @@ import {
     @Column()
     customerId: string;
 
+    @Column()
+    category: string;
+
+    @Column()
+    status: string;
+
     @UpdateDateColumn()
     updatedAt: Date;
 

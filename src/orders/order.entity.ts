@@ -41,7 +41,13 @@ import {
 
     @Column({ nullable: false, type: 'real'})
     remaining: number;
-  
+
+    @Column({ nullable: false, type: 'real'})
+    profit: number;
+
+    @Column({ nullable: false, type: 'real'})
+    cost: number;
+
     @Column()
     customerId: string;
 

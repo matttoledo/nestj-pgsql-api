@@ -44,4 +44,10 @@ export class OrdersService {
                                     .getMany();
 
     }    
+    async listOrdersByCategory(id: string): Promise<Order[]>{
+        return this.orderRepository.createQueryBuilder("order")
+                                    .where("order.category=:id")
+                                    .getMany();
+
+    }    
 }

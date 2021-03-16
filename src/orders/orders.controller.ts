@@ -45,5 +45,10 @@ export class OrdersController {
         return this.orderService.listOrdersByCustomerId(id);
     }
 
+    @Get('ordersByStatus/:id')
+    async listOrdersByStatus(@Param('id') id:string): Promise <Order[]>{
+        return this.orderService.listOrdersByCustomerId(id);
+    }
+
 
 }

@@ -49,5 +49,12 @@ export class OrdersService {
                                     .where("order.category=:id")
                                     .getMany();
 
-    }    
+    } 
+    
+    async listOrdersByStatus(id: string): Promise<Order[]>{
+        return this.orderRepository.createQueryBuilder("order")
+                                    .where("order.status=:id")
+                                    .getMany();
+
+    }
 }

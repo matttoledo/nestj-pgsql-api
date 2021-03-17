@@ -34,6 +34,8 @@ $ npm install
 
 ## Running the app
 
+nest start --watch
+
 ```bash
 # development
 $ npm run start

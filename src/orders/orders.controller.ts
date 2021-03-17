@@ -11,7 +11,9 @@ export class OrdersController {
 
     @Post()
     async addOrder (@Body() addOrderDto:AddOrderDto): Promise <ReturnOrderDto>{
+        debugger
         const order = await this.orderService.addOrder(addOrderDto);
+        debugger
         return{order, message:'Pedido cadastrado com sucesso'};
 
     }

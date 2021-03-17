@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Post, Patch, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Patch, Param, Put } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
 import { ReturnCustomerDto } from './dtos/return-customer.dto';
+import { UpdateCustomerDto } from './dtos/update-customer.dto'
 import { Customer } from './customer.entity';
 import { DeleteResult } from 'typeorm';
-import { debug } from 'console';
 
 @Controller('customers')
 export class CustomersController {
@@ -12,7 +12,9 @@ export class CustomersController {
 
     @Post()
     async createCustomer(@Body() createCustomerDto: CreateCustomerDto): Promise <ReturnCustomerDto>{
+        debugger
         const customer = await this.customersService.createCustomer(createCustomerDto);
+        debugger
         return {customer, message:'Cliente cadastrado com sucesso'};
 
     }
@@ -30,11 +32,9 @@ export class CustomersController {
         return {customer, message:'Cliente Encontrado!'};
     }
 
-    @Patch("putId")
-    async changeCustomerById(@Body() newCustomer: Customer): Promise <ReturnCustomerDto>{
-        const customer = await this.customersService.findCustomerById(newCustomer.id);
-        
-        return {customer, message:'Cliente encontrando!'};
+    @Put("update")
+    async updateCustomer(@Body() newCustomer: UpdateCustomerDto): Promise <Customer>{
+        return await this.customersService.updateCustomer(newCustomer);  
     }
     
 
@@ -46,7 +46,6 @@ export class CustomersController {
     @Delete("deleteId")
     async deleteCustomerById(@Body() id: string): Promise <DeleteResult>{
         return await this.customersService.deleteCustomerById(id);
-
     }
 
 

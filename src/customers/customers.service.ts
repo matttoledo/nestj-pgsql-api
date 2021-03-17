@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerRepository } from './customer.repository';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
 import { Customer } from './customer.entity';
-import { DeleteCustomerDto } from './dtos/delete-customer.dto';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, RepositoryNotTreeError, UpdateResult } from 'typeorm';
+import { response } from 'express';
+import { UpdateCustomerDto } from './dtos/update-customer.dto';
 
 @Injectable()
 export class CustomersService {
@@ -18,12 +19,13 @@ export class CustomersService {
     }
 
     async findCustomerById(id: string): Promise<Customer>{
-        debugger
-        const customer = await this.customerRepository.findOne(id,{
-            select:['id','name','cpf','address','phone','phone2','defaulter'],
-        })
-        if (!customer) throw new NotFoundException('Cliente não encontrado');
+        const customer = this.customerRepository.createQueryBuilder("customer")
+                                                .where("customer.id =:id",{ id: id})
+                                                .getOne();
 
+
+        if (!customer) throw new NotFoundException('Cliente não encontrado');
+        
         return customer;
     }
 
@@ -33,8 +35,9 @@ export class CustomersService {
                                                 .orWhere("customer.phone2 =:id",{ id: phone})
                                                 .getOne();
 
-        if (!customer) throw new NotFoundException('Cliente não encontrado');
 
+        if (!customer) throw new NotFoundException('Cliente não encontrado');
+        
         return customer;
     }
     
@@ -49,5 +52,14 @@ export class CustomersService {
         return new DeleteResult;
 
 }
+
+    async updateCustomer(newCustomer:UpdateCustomerDto): Promise<Customer>{
+        const customer = await this.findCustomerById(newCustomer.id);
+        this.customerRepository.merge(customer, newCustomer);
+
+        return await this.customerRepository.save(customer);
+        
+    ;
+    }
 
 }

@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "d45eb09f-587d-4385-94d2-106b33332039",
+		"name": "nestjs-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Adicionar Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Matheus Toledo\",\r\n    \"cpf\":\"15548507702\",\r\n    \"phone\":\"998406881\",\r\n    \"phone2\":\"35551831\",\r\n    \"address\":\"Estrada do encanamento, 1916, casa 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-back}}/customers",
+							"host": [
+								"{{url-back}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"057b6fc1-2122-4eae-9384-9cee21209640\",\r\n    \"cpf\": \"15548507702\",\r\n    \"name\": \"Matheus Toledo\",\r\n    \"address\": \"Estrada do encanamento, 1916, casa 2\",\r\n    \"phone\": \"998406882\",\r\n    \"phone2\": \"35551831\",\r\n    \"defaulter\": true,\r\n    \"createdAt\": \"2021-03-17T00:56:36.731Z\",\r\n    \"updatedAt\": \"2021-03-17T00:56:36.731Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-back}}/customers/update",
+							"host": [
+								"{{url-back}}"
+							],
+							"path": [
+								"customers",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Customer por phone/phone2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url-back}}/customers/phone/{{phone}}",
+							"host": [
+								"{{url-back}}"
+							],
+							"path": [
+								"customers",
+								"phone",
+								"{{phone}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar todos Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-back}}/customers/all",
+							"host": [
+								"{{url-back}}"
+							],
+							"path": [
+								"customers",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Customer por Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url-back}}/customers/customer/{{customerId}}",
+							"host": [
+								"{{url-back}}"
+							],
+							"path": [
+								"customers",
+								"customer",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": []
+		}
+	]
+}

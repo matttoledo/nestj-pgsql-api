@@ -3,8 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerRepository } from './customer.repository';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
 import { Customer } from './customer.entity';
-import { DeleteResult, RepositoryNotTreeError, UpdateResult } from 'typeorm';
-import { response } from 'express';
+import { DeleteResult } from 'typeorm';
 import { UpdateCustomerDto } from './dtos/update-customer.dto';
 
 @Injectable()

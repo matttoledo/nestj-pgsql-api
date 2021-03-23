@@ -6,7 +6,7 @@ import { ConflictException, InternalServerErrorException } from '@nestjs/common'
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
     async addOrder(addOrderDto: AddOrderDto): Promise <Order>{
-        const {serviceOrder, orderDescription, deliveryDate, totalValue, firstValue, deliveryValue, remaining, customerId} = addOrderDto;
+        const {serviceOrder, orderDescription, deliveryDate, totalValue, firstValue, deliveryValue, remaining, customerId, category, status, profit, cost} = addOrderDto;
         
         const order = this.create()
         order.serviceOrder = serviceOrder;
@@ -17,7 +17,10 @@ export class OrderRepository extends Repository<Order> {
         order.remaining = remaining;
         order.customerId = customerId;
         order.deliveryValue = deliveryValue;
-
+        order.category = category;
+        order.status = status;
+        order.profit = profit;
+        order.cost = cost;
 
         try {
             await order.save();

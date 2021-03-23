@@ -27,7 +27,6 @@ export class OrdersController {
     async findOrderById(@Param('id') id: string): Promise <Order>{
         const order = await this.orderService.findOrderById(id);
         return order;
-        
     }
 
     @Get('order/:id')

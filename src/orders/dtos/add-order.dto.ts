@@ -8,4 +8,8 @@ export class AddOrderDto{
     deliveryValue: number;
     remaining: number;
     customerId: string;
+    category: string;
+    status: string;
+    profit: number;
+    cost: number;
 }

@@ -40,20 +40,20 @@ export class OrdersService {
 
     async listOrdersByCustomerId(id: string): Promise<Order[]>{
         return this.orderRepository.createQueryBuilder("order")
-                                    .where("order.customerId=:id")
+                                    .where("order.customerId=:id",{id: id})
                                     .getMany();
 
     }    
     async listOrdersByCategory(id: string): Promise<Order[]>{
         return this.orderRepository.createQueryBuilder("order")
-                                    .where("order.category=:id")
+                                    .where("order.category=:id",{id: id})
                                     .getMany();
 
     } 
     
     async listOrdersByStatus(id: string): Promise<Order[]>{
         return this.orderRepository.createQueryBuilder("order")
-                                    .where("order.status=:id")
+                                    .where("order.status=:id",{id: id})
                                     .getMany();
 
     }

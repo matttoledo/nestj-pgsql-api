@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerRepository } from './customer.repository';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
+import { FindAllDto } from './dtos/find-all.dto';
 import { Customer } from './customer.entity';
 import { DeleteResult } from 'typeorm';
 import { UpdateCustomerDto } from './dtos/update-customer.dto';
@@ -17,10 +18,21 @@ export class CustomersService {
         return this.customerRepository.createCustomer(createCustomerDto);
     }
 
+    async findCustomersByIds(ids: string[]): Promise<Customer[]>{
+        const customer = await this.customerRepository.createQueryBuilder("customer")
+                                                .where("customer.id in (:...id)", {id: ids})
+                                                .getMany();
+        console.log(customer)
+        if (!customer) throw new NotFoundException('Cliente não encontrado');
+        
+        return customer;
+    }
     async findCustomerById(id: string): Promise<Customer>{
-        const customer = this.customerRepository.createQueryBuilder("customer")
-                                                .where("customer.id =:id",{ id: id})
-                                                .getOne();
+        // const customer = this.customerRepository.createQueryBuilder("customer")
+        //                                         .where("customer.id =:id",{ id: id})
+        //                                         .getOne();
+
+        const customer = this.customerRepository.findOne(id);
 
 
         if (!customer) throw new NotFoundException('Cliente não encontrado');
@@ -41,8 +53,11 @@ export class CustomersService {
     }
     
 
-    async findAllCustomers(): Promise<Customer[]>{
-        return await this.customerRepository.find();
+    async findAllCustomers(): Promise<FindAllDto>{
+        const listCustomers = await this.customerRepository.find();
+        const count = await this.customerRepository.count();
+
+        return {listCustomers, count};
     }
 
     async deleteCustomerById(id: string): Promise<DeleteResult>{
@@ -52,13 +67,11 @@ export class CustomersService {
 
 }
 
-    async updateCustomer(newCustomer:UpdateCustomerDto): Promise<Customer>{
-        const customer = await this.findCustomerById(newCustomer.id);
-        this.customerRepository.merge(customer, newCustomer);
+    //async updateCustomer(newCustomer:UpdateCustomerDto): Promise<Customer>{
+    //    const customer = await this.findCustomerById(newCustomer.id);
+    //    this.customerRepository.merge(customer, newCustomer);
 
-        return await this.customerRepository.save(customer);
-        
-    ;
-    }
+    //    return await this.customerRepository.save(customer);
+    //}
 
 }

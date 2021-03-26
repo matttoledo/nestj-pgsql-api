@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Post, Patch, Param, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Param, Put, Res, Query } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
 import { ReturnCustomerDto } from './dtos/return-customer.dto';
 import { UpdateCustomerDto } from './dtos/update-customer.dto'
 import { Customer } from './customer.entity';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult } from 'typeorm'; 
+import { Response } from 'express';
 
 @Controller('customers')
 export class CustomersController {
@@ -19,7 +20,14 @@ export class CustomersController {
 
     }
 
-    @Get('customer/:id')
+ 
+    @Get('/id')
+    async findCustomersByIds(@Query('id') id: string[]): Promise <Customer[]>{
+        const customer = await this.customersService.findCustomersByIds(id);
+        return customer;
+        
+    }
+    @Get('/:id')
     async findCustomerById(@Param('id') id: string): Promise <Customer>{
         const customer = await this.customersService.findCustomerById(id);
         return customer;
@@ -32,15 +40,18 @@ export class CustomersController {
         return {customer, message:'Cliente Encontrado!'};
     }
 
-    @Put("update")
-    async updateCustomer(@Body() newCustomer: UpdateCustomerDto): Promise <Customer>{
-        return await this.customersService.updateCustomer(newCustomer);  
-    }
+   // @Put("update")
+   // async updateCustomer(@Body() newCustomer: UpdateCustomerDto): Promise <Customer>{
+   //     return await this.customersService.updateCustomer(newCustomer);  
+   // }
     
 
-    @Get("all")
-    async getAllCustomers(): Promise <Customer[]>{
-        return await this.customersService.findAllCustomers();
+    @Get()
+    async getAllCustomers(@Res() res: Response): Promise <Customer[]>{
+        const customers = await this.customersService.findAllCustomers();
+        res.header('X-Total-Count', customers.count.toString());
+        res.send(customers.listCustomers)
+        return customers.listCustomers;
     }
 
     @Delete("deleteId")

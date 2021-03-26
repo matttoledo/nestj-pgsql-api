@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AddOrderDto } from './dtos/add-order.dto';
 import { OrderRepository } from './order.repository'; 
 import { Order } from './order.entity'
+import { FindAllDto } from './dtos/find-all.dto';
 
 @Injectable()
 export class OrdersService {
@@ -16,8 +17,11 @@ export class OrdersService {
     }
 
 
-    async findAllOrders(): Promise<Order[]>{
-        return await this.orderRepository.find();
+    async findAllOrders(): Promise<FindAllDto>{
+        const listOrders = await this.orderRepository.find();
+        const count = await this.orderRepository.count();
+
+        return {listOrders, count};
     }
 
     async findOrderById(id: string): Promise<Order>{

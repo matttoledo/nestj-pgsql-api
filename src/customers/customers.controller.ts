@@ -40,10 +40,12 @@ export class CustomersController {
         return {customer, message:'Cliente Encontrado!'};
     }
 
-   // @Put("update")
-   // async updateCustomer(@Body() newCustomer: UpdateCustomerDto): Promise <Customer>{
-   //     return await this.customersService.updateCustomer(newCustomer);  
-   // }
+   @Put('/:id')
+   async updateCustomer(@Param('id') id:string, @Body() newCustomer: UpdateCustomerDto): Promise <Customer>{
+        const oldCustomer = await this.customersService.findCustomerById(id);
+        const customer = await this.customersService.updateCustomer(oldCustomer, newCustomer);
+        return customer;
+    }
     
 
     @Get()

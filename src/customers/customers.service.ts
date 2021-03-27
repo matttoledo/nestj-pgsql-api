@@ -67,11 +67,10 @@ export class CustomersService {
 
 }
 
-    //async updateCustomer(newCustomer:UpdateCustomerDto): Promise<Customer>{
-    //    const customer = await this.findCustomerById(newCustomer.id);
-    //    this.customerRepository.merge(customer, newCustomer);
+    async updateCustomer(oldCustomer: Customer, newCustomer:UpdateCustomerDto): Promise<Customer>{
+        const customer = this.customerRepository.merge(oldCustomer, newCustomer);
 
-    //    return await this.customerRepository.save(customer);
-    //}
+        return await this.customerRepository.save(customer);
+    }
 
 }

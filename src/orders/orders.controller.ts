@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Param, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, Res, Put } from '@nestjs/common';
 import { AddOrderDto } from './dtos/add-order.dto';
 import { OrdersService } from './orders.service';
 import { ReturnOrderDto } from './dtos/return-order-dto.dto';
+import { UpdateOrderDto } from './dtos/update-order.dto';
 import { Order } from './order.entity';
 import { Response } from 'express';
 
@@ -25,7 +26,13 @@ export class OrdersController {
         return (orders.listOrders);
     }
 
-    @Get('orderId/:id')
+    @Put('/:id')
+    async updateOrder(@Param('id') id:string, @Body() newOrder: UpdateOrderDto): Promise <Order>{
+        const oldOrder = await this.orderService.findOrderById(id);
+        const order = await this.orderService.updateOrder(oldOrder, newOrder);
+        return order;
+    }
+    @Get('/:id')
     async findOrderById(@Param('id') id: string): Promise <Order>{
         const order = await this.orderService.findOrderById(id);
         return order;

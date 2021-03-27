@@ -4,6 +4,7 @@ import { AddOrderDto } from './dtos/add-order.dto';
 import { OrderRepository } from './order.repository'; 
 import { Order } from './order.entity'
 import { FindAllDto } from './dtos/find-all.dto';
+import { UpdateOrderDto } from './dtos/update-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -15,6 +16,13 @@ export class OrdersService {
     async addOrder(addOrderDto: AddOrderDto): Promise <Order>{
         return this.orderRepository.addOrder(addOrderDto);
     }
+
+    async updateOrder(oldOrder: Order, newOrder: UpdateOrderDto): Promise<Order>{
+        const order = this.orderRepository.merge(oldOrder, newOrder);
+
+        return await this.orderRepository.save(order);
+    }
+
 
 
     async findAllOrders(): Promise<FindAllDto>{

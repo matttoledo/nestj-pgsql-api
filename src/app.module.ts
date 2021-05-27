@@ -5,6 +5,8 @@ import { CustomersModule } from './customers/customers.module';
 import { OrdersModule } from './orders/orders.module';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname+'/.env' });
@@ -14,7 +16,7 @@ dotenv.config({ path: __dirname+'/.env' });
             TypeOrmModule.forRoot(typeOrmConfig),
             CustomersModule, 
             OrdersModule, 
-            ProductsModule],
+            ProductsModule, AuthModule, UsersModule],
   controllers: [],
   providers: [],
 })

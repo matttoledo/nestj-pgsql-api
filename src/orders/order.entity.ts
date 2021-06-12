@@ -52,12 +52,27 @@ import {
     customerId: string;
 
     @Column()
-    category: string;
+    category: orderCategory;
 
     @Column()
-    status: string;
+    status: orderStatus;
 
     @UpdateDateColumn()
     updatedAt: Date;
 
   }
+
+
+export enum orderStatus {
+    INICIADO ="INICIADO",
+    PRODUÇÃO = "PRODUÇÃO",
+    ROTA_DE_ENTREGA = "ROTA DE ENTREGA",
+    ENTREGUE = "ENTREGUE"
+}
+
+export enum orderCategory {
+  VIDRO_TEMPERADO = "VIDRO TEMPERADO",
+  ALUMINIO = "ALUMÍNIO",
+  PVC = "PVC",
+  
+}

@@ -1,3 +1,5 @@
+import { orderCategory, orderStatus } from "../order.entity";
+
 export class UpdateOrderDto{
     serviceOrder: bigint;
     orderDescription: string;
@@ -6,8 +8,8 @@ export class UpdateOrderDto{
     firstValue: number;
     deliveryValue: number;
     remaining: number;
-    category: string;
-    status: string;
+    category: orderCategory;
+    status: orderStatus;
     profit: number;
     cost: number;
 }

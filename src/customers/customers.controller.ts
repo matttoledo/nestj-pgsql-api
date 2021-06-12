@@ -38,11 +38,11 @@ export class CustomersController {
     const customer = await this.customersService.findCustomersByIds(id);
     return customer;
   }
-  @Get('/:id')
-  async findCustomerById(@Param('id') id: string): Promise<Customer> {
-    const customer = await this.customersService.findCustomerById(id);
-    return customer;
-  }
+  // @Get('/:id')
+  // async findCustomerById(@Param('id') id: string): Promise<Customer> {
+  //   const customer = await this.customersService.findCustomerById(id);
+  //   return customer;
+  // }
 
   @Get('phone/:id')
   async findCustomerByphone(
@@ -76,5 +76,11 @@ export class CustomersController {
   @Delete('deleteId')
   async deleteCustomerById(@Body() id: string): Promise<DeleteResult> {
     return await this.customersService.deleteCustomerById(id);
+  }
+
+  @Post('/search/:id')
+  async searchCustomer(@Param('id') id: String): Promise<Customer[]> {
+    const customer = await this.customersService.searchCostumer(id);
+    return customer;
   }
 }

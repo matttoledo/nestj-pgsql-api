@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddOrderDto } from './dtos/add-order.dto';
 import { OrderRepository } from './order.repository'; 
-import { Order } from './order.entity'
+import { Order, orderStatus } from './order.entity'
 import { FindAllDto } from './dtos/find-all.dto';
 import { UpdateOrderDto } from './dtos/update-order.dto';
 
@@ -14,16 +14,14 @@ export class OrdersService {
     ){}
 
     async addOrder(addOrderDto: AddOrderDto): Promise <Order>{
+        addOrderDto.status = orderStatus.INICIADO;
         return this.orderRepository.addOrder(addOrderDto);
     }
 
     async updateOrder(oldOrder: Order, newOrder: UpdateOrderDto): Promise<Order>{
         const order = this.orderRepository.merge(oldOrder, newOrder);
-
         return await this.orderRepository.save(order);
     }
-
-
 
     async findAllOrders(): Promise<FindAllDto>{
         const listOrders = await this.orderRepository.find();

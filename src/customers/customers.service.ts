@@ -73,4 +73,13 @@ export class CustomersService {
         return await this.customerRepository.save(customer);
     }
 
+    async searchCostumer(searchQuery: String): Promise<Customer[]>{
+            return this.customerRepository.createQueryBuilder().select()
+                .where('name ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+                .orWhere('address ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+                .orWhere('phone ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+                .getMany();
+
+    }
+
 }

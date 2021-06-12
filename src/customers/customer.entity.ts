@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn, Index,
 } from 'typeorm';
 
 @Entity()
@@ -17,15 +17,19 @@ export class Customer extends BaseEntity {
   @Column()
   cpf: string;
 
+  @Index({ fulltext: true })
   @Column({ nullable: false, type: 'varchar', length: 200 })
   name: string;
 
+  @Index({ fulltext: true })
   @Column({ nullable: false, type: 'varchar', length: 400 })
   address: string;
 
+  @Index({ fulltext: true })
   @Column({ nullable: false, type: 'varchar', length: 20 })
   phone: string;
 
+  @Index({ fulltext: true })
   @Column({ nullable: false, type: 'varchar', length: 20 })
   phone2: string;
 

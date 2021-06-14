@@ -1,10 +1,14 @@
-import { Body, Controller, Get, Post, Param, Res, Put } from '@nestjs/common';
+import {Body, Controller, Get, Post, Param, Res, Put, UseGuards} from '@nestjs/common';
 import { AddOrderDto } from './dtos/add-order.dto';
 import { OrdersService } from './orders.service';
 import { ReturnOrderDto } from './dtos/return-order-dto.dto';
 import { UpdateOrderDto } from './dtos/update-order.dto';
 import { Order } from './order.entity';
 import { Response } from 'express';
+import {Role} from "../auth/role-decorator";
+import {AuthGuard} from "@nestjs/passport";
+import {UserRole} from "../users/user-roles.enum";
+import {RolesGuard} from "../auth/role-guards";
 
 @Controller('orders')
 export class OrdersController {
@@ -18,6 +22,8 @@ export class OrdersController {
 
     }
 
+    @Role(UserRole.USER)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Get()
     async getAllOrders(@Res() res: Response): Promise <Order[]>{
         const orders = await this.orderService.findAllOrders();

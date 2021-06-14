@@ -26,6 +26,7 @@ export class AuthController {
         return await this.authService.signIn(credentiaslsDto);
     }
 
+
     @Get('/me')
     @UseGuards(AuthGuard())
     getMe(@GetUser() user: User): User {

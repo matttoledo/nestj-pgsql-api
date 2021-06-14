@@ -7,7 +7,7 @@ import {
   Param,
   Put,
   Res,
-  Query,
+  Query, UseGuards,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
@@ -16,6 +16,10 @@ import { UpdateCustomerDto } from './dtos/update-customer.dto';
 import { Customer } from './customer.entity';
 import { DeleteResult } from 'typeorm';
 import { Response } from 'express';
+import {Role} from "../auth/role-decorator";
+import {AuthGuard} from "@nestjs/passport";
+import {UserRole} from "../users/user-roles.enum";
+import {RolesGuard} from "../auth/role-guards";
 
 @Controller('customers')
 export class CustomersController {
@@ -33,6 +37,8 @@ export class CustomersController {
     return { customer, message: 'Cliente cadastrado com sucesso' };
   }
 
+  @Role(UserRole.ADMIN)
+  @UseGuards(AuthGuard(), RolesGuard)
   @Get('/id')
   async findCustomersByIds(@Query('id') id: string[]): Promise<Customer[]> {
     const customer = await this.customersService.findCustomersByIds(id);
@@ -65,6 +71,8 @@ export class CustomersController {
     return customer;
   }
 
+  @Role(UserRole.USER)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get()
   async getAllCustomers(@Res() res: Response): Promise<Customer[]> {
     const customers = await this.customersService.findAllCustomers();

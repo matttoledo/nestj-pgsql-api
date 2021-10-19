@@ -38,7 +38,7 @@ export class UserRepository extends Repository<User> {
         const { id, password } = credentialsDto;
         const user = await this.findOne(id);
 
-        if (user && (await user.checkPassword(password))) {
+        if (user && user.checkPassword(password)) {
             return user;
         } else {
             return null;

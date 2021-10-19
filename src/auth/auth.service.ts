@@ -24,14 +24,14 @@ export class AuthService {
     }
     async signIn(credentialsDto: CredentialsDto) {
         const user = await this.userRepository.checkCredentials(credentialsDto);
-
+        debugger
         if (user === null) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
         const jwtPayload = {
             id: user.id,
         };
-
+        debugger
         const token = await this.jwtService.sign(jwtPayload);
 
         return { token };

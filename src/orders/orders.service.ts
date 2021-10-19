@@ -67,4 +67,16 @@ export class OrdersService {
                                     .getMany();
 
     }
+    async searchOrder(searchQuery: String): Promise<FindAllDto>{
+        const orders = await this.orderRepository.createQueryBuilder().select()
+            .where('name ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+            .orWhere('address ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+            .orWhere('phone ILIKE :searchQuery', {searchQuery: `%${searchQuery}%`})
+            .getMany();
+
+        // const count = await this.customerRepository.count();
+
+        return {listOrders:orders, count:orders.length}
+
+    }
 }

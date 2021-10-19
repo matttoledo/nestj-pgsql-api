@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, Param, Res, Put, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Post, Param, Res, Put, UseGuards, Query} from '@nestjs/common';
 import { AddOrderDto } from './dtos/add-order.dto';
 import { OrdersService } from './orders.service';
 import { ReturnOrderDto } from './dtos/return-order-dto.dto';
@@ -25,8 +25,15 @@ export class OrdersController {
     @Role(UserRole.USER)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Get()
-    async getAllOrders(@Res() res: Response): Promise <Order[]>{
-        const orders = await this.orderService.findAllOrders();
+    async getAllOrders(@Res() res: Response, @Query('search')filter: String): Promise <Order[]>{
+        let orders;
+
+        if (filter == undefined){
+            orders = await this.orderService.findAllOrders();
+        } else {
+            orders = await this.orderService.searchOrder(filter);
+        }
+
         res.header('X-Total-Count', orders.count.toString())
         res.send(orders.listOrders);
         return (orders.listOrders);

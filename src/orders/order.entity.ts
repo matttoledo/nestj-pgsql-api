@@ -6,18 +6,20 @@ import {
     PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
-    UpdateDateColumn,
-  } from 'typeorm';
+    UpdateDateColumn, Index,
+} from 'typeorm';
   
   @Entity()
-  @Unique(['serviceOrder'])
+  @Unique(['id'])
   export class Order extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Index({ fulltext: true })
     @PrimaryGeneratedColumn('increment')
     serviceOrder: bigint;
 
+    @Index({ fulltext: true })
     @Column({ nullable: false, type: 'varchar', length: 500 })
     orderDescription: string;
 

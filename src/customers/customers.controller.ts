@@ -7,7 +7,7 @@ import {
   Param,
   Put,
   Res,
-  Query, UseGuards,
+  Query, UseGuards, Req,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dtos/create-customer.dto';
@@ -29,11 +29,9 @@ export class CustomersController {
   async createCustomer(
     @Body() createCustomerDto: CreateCustomerDto,
   ): Promise<ReturnCustomerDto> {
-    debugger;
     const customer = await this.customersService.createCustomer(
       createCustomerDto,
     );
-    debugger;
     return { customer, message: 'Cliente cadastrado com sucesso' };
   }
 
@@ -74,8 +72,15 @@ export class CustomersController {
   @Role(UserRole.USER)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get()
-  async getAllCustomers(@Res() res: Response): Promise<Customer[]> {
-    const customers = await this.customersService.findAllCustomers();
+  async getAllCustomers(@Res() res: Response, @Query('search') filter: String): Promise<Customer[]> {
+    let customers;
+
+    if (filter == undefined){
+      customers = await this.customersService.findAllCustomers()
+    } else{
+      customers = await this.customersService.searchCostumer(filter);
+    }
+
     res.header('X-Total-Count', customers.count.toString());
     res.send(customers.listCustomers);
     return customers.listCustomers;
@@ -85,10 +90,10 @@ export class CustomersController {
   async deleteCustomerById(@Body() id: string): Promise<DeleteResult> {
     return await this.customersService.deleteCustomerById(id);
   }
-
-  @Post('/search/:id')
-  async searchCustomer(@Param('id') id: String): Promise<Customer[]> {
-    const customer = await this.customersService.searchCostumer(id);
-    return customer;
-  }
+  //
+  // @Get()
+  // async searchCustomer(@Query('filter') q: String): Promise<Customer[]> {
+  //   const customer = await this.customersService.searchCostumer(q);
+  //   return customer;
+  // }
 }

@@ -23,6 +23,7 @@ export class AuthController {
     @Post('/signin')
     async signIn(
         @Body(ValidationPipe) credentiaslsDto: CredentialsDto): Promise<{ token: string }> {
+        debugger
         return await this.authService.signIn(credentiaslsDto);
     }
 
